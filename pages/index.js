@@ -1,15 +1,12 @@
-import Head from "next/head";
 import { Fragment } from "react";
+import Layout from "../components/Layout";
 
 export default function() {
   return (
     <Fragment>
-      <Head>
-        <meta
-          name="viewport"
-          content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no"
-        />
-      </Head>
+      <Layout>
+        <h1>XIn chao</h1>
+      </Layout>
     </Fragment>
   );
 }
