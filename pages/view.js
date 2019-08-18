@@ -16,7 +16,11 @@ function renderUser(users) {
   const _u = users.user;
   return _u.map((e, i) => (
     <div key={i} className="card" style={{ width: "18rem" }}>
-      <img src="/static/img/girl.jpg" className="card-img-top" alt="..." />
+      <img
+        src={`${uServer}/uploads/${e.avatar}`}
+        className="card-img-top"
+        alt={e.avatar}
+      />
       <div className="card-body">
         <h5 className="card-title">name: {e.name}</h5>
         <p className="card-text">age: {e.age}</p>
@@ -29,7 +33,8 @@ function renderUser(users) {
 }
 
 function View({ users }) {
-  console.log(useContext(UserContext));
+  const { user } = useContext(UserContext);
+  console.log(user);
   return <Layout>{renderUser(users)}</Layout>;
 }
 

@@ -5,7 +5,7 @@ export default function() {
   return (
     <Container>
       <Layout>
-        <h1>XIn chao</h1>
+        <h1>Home page</h1>
       </Layout>
     </Container>
   );
