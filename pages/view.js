@@ -1,9 +1,36 @@
-import Layout from "../components/Layout";
+import React, { Component, useContext } from "react";
+import fetch from "isomorphic-unfetch";
 
-export default () => (
-  <Layout>
-    <div className="alert alert-primary" role="alert">
-      <strong>primary</strong>
+import Layout from "../components/Layout";
+import { uServer } from "../config";
+
+import UserContext from "../components/UserContext";
+
+View.getInitialProps = async () => {
+  const _u = await fetch(`${uServer}/get`);
+  const users = await _u.json();
+  return { users };
+};
+
+function renderUser(users) {
+  const _u = users.user;
+  return _u.map((e, i) => (
+    <div key={i} className="card" style={{ width: "18rem" }}>
+      <img src="/static/img/girl.jpg" className="card-img-top" alt="..." />
+      <div className="card-body">
+        <h5 className="card-title">name: {e.name}</h5>
+        <p className="card-text">age: {e.age}</p>
+        <a href="#" className="btn btn-block btn-primary">
+          Edit
+        </a>
+      </div>
     </div>
-  </Layout>
-);
+  ));
+}
+
+function View({ users }) {
+  console.log(useContext(UserContext));
+  return <Layout>{renderUser(users)}</Layout>;
+}
+
+export default View;

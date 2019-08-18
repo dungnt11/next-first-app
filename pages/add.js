@@ -1,5 +1,9 @@
 import React, { Component } from "react";
+import fetch from "isomorphic-unfetch";
+import Router from "next/router";
+
 import Layout from "../components/Layout";
+import { uServer } from "../config";
 
 export default class extends Component {
   constructor(props) {
@@ -28,7 +32,7 @@ export default class extends Component {
 
     return list.map((e, i) => (
       <input
-        max={e.name === "age" && 100}
+        max={e.name === "age" ? 100 : 0}
         key={i}
         type={e.type}
         className="form-control"
@@ -73,9 +77,23 @@ export default class extends Component {
     }
   };
 
-  submit = e => {
+  submit = async e => {
     e.preventDefault();
-    // check loi
+    try {
+      const { name, age, file } = this.state;
+      let form = new FormData();
+      form.set("name", name);
+      form.set("age", age);
+      form.append("avatar", file);
+
+      await fetch(`${uServer}/add`, {
+        method: "POST",
+        body: form
+      });
+      Router.push("/view");
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   render() {
