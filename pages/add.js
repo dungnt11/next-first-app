@@ -1,19 +1,26 @@
-import React, { Component } from "react";
+import React, { Component, useEffect } from "react";
 import fetch from "isomorphic-unfetch";
 import Router from "next/router";
 
 import Layout from "../components/Layout";
 import { uServer } from "../config";
+import Navbar from "../components/Navbar";
 
 export default class extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
       name: "",
       age: 0,
       avatar: "",
-      file: ""
+      file: "",
+      edit: false
     };
+
+    this.props.user !== undefined &&
+      (this.state = { ...this.props.user, edit: true }) &&
+      (this.state.avatar = `${uServer}/uploads/${this.state.avatar}`);
   }
 
   renderInput = () => {
@@ -86,10 +93,15 @@ export default class extends Component {
       form.set("age", age);
       form.append("avatar", file);
 
-      await fetch(`${uServer}/add`, {
-        method: "POST",
-        body: form
-      });
+      this.state.edit
+        ? await fetch(`${uServer}/edit/${this.state._id}`, {
+            method: "PUT",
+            body: form
+          })
+        : await fetch(`${uServer}/add`, {
+            method: "POST",
+            body: form
+          });
       Router.push("/view");
     } catch (err) {
       console.log(err);
@@ -99,9 +111,12 @@ export default class extends Component {
   render() {
     return (
       <Layout>
+        <Navbar />
         <form onSubmit={this.submit}>
           <div className="alert alert-primary" role="alert">
-            Thêm thông tin người dùng!
+            {this.state.edit
+              ? "Sửa thông tin người dùng"
+              : "Thêm thông tin người dùng!"}
           </div>
 
           {this.renderInput()}

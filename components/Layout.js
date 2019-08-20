@@ -1,7 +1,6 @@
 import Head from "next/head";
 import { Fragment } from "react";
 
-import Navbar from "./Navbar";
 
 export default props => (
   <Fragment>
@@ -35,7 +34,6 @@ export default props => (
         crossorigin="anonymous"
       />
     </Head>
-    <Navbar />
     <div className="container">{props.children}</div>
   </Fragment>
 );

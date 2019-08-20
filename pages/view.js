@@ -1,10 +1,10 @@
 import React, { Component, useContext } from "react";
 import fetch from "isomorphic-unfetch";
+import Link from "next/link";
 
 import Layout from "../components/Layout";
 import { uServer } from "../config";
-
-import UserContext from "../components/UserContext";
+import Navbar from "../components/Navbar";
 
 View.getInitialProps = async () => {
   const _u = await fetch(`${uServer}/get`);
@@ -24,18 +24,21 @@ function renderUser(users) {
       <div className="card-body">
         <h5 className="card-title">name: {e.name}</h5>
         <p className="card-text">age: {e.age}</p>
-        <a href="#" className="btn btn-block btn-primary">
-          Edit
-        </a>
+        <Link href={`/edit/[edit]`} as={`edit/${e._id}`}>
+          <a className="btn btn-block btn-primary">Edit</a>
+        </Link>
       </div>
     </div>
   ));
 }
 
 function View({ users }) {
-  const { user } = useContext(UserContext);
-  console.log(user);
-  return <Layout>{renderUser(users)}</Layout>;
+  return (
+    <Layout>
+      <Navbar />
+      {renderUser(users)}
+    </Layout>
+  );
 }
 
 export default View;
