@@ -20,8 +20,20 @@ export default class extends Component {
 
     this.props.user !== undefined &&
       (this.state = { ...this.props.user, edit: true }) &&
-      (this.state.avatar = `${uServer}/uploads/${this.state.avatar}`);
+      (this.state.avatar = `${uServer}/server/uploads/${this.state.avatar}`);
   }
+
+  removeUser = async e => {
+    e.preventDefault();
+    let a = confirm("Bạn có muốn xóa không ?");
+    if (a) {
+      // dong y xoa
+      await fetch(`${uServer}/user/${this.state._id}`, {
+        method: "DELETE"
+      });
+      Router.push("/view");
+    }
+  };
 
   renderInput = () => {
     let list = [
@@ -128,7 +140,6 @@ export default class extends Component {
               className="form-control-file"
               name="avatar"
               id="avatar"
-              required
               onChange={this.handleChange}
             />
           </div>
@@ -138,6 +149,15 @@ export default class extends Component {
           <button type="submit" className="btn btn-success btn-block">
             Thêm
           </button>
+          {this.state.edit && (
+            <button
+              onClick={this.removeUser}
+              type="submit"
+              className="btn btn-danger btn-block"
+            >
+              Xóa
+            </button>
+          )}
         </form>
 
         <style jsx>{`

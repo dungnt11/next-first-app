@@ -17,7 +17,7 @@ function renderUser(users) {
   return _u.map((e, i) => (
     <div key={i} className="card" style={{ width: "18rem" }}>
       <img
-        src={`${uServer}/uploads/${e.avatar}`}
+        src={`${uServer}/server/uploads/${e.avatar}`}
         className="card-img-top"
         alt={e.avatar}
       />
